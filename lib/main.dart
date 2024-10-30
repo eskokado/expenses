@@ -25,8 +25,19 @@ class MyHomePage extends StatelessWidget {
         title: const Text('Despesas Pessoais'),
         backgroundColor: Colors.blue,
       ),
-      body: const Center(
-        child: Text('Versão inicial'),
+      body: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            child: Card(
+              child: Text('Gráfico'),
+              color: Colors.blue,
+            ),
+          ),
+          Card(
+            child: Text('Lista de Transações'),
+          )
+        ],
       ),
     );
   }
