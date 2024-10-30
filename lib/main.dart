@@ -1,3 +1,4 @@
+import 'package:expenses/models/transaction.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +17,22 @@ class ExpensesApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+  final _transactions = [
+    Transaction(
+      id: 't1',
+      title: 'Transaction 01',
+      value: 310.99,
+      date: DateTime.now()
+    ),
+    Transaction(
+        id: 't2',
+        title: 'Transaction 02',
+        value: 230.79,
+        date: DateTime.now()
+    )
+  ];
+
+  MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +42,64 @@ class MyHomePage extends StatelessWidget {
         backgroundColor: Colors.blue,
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
             width: double.infinity,
-            child: Card(
+            child: const Card(
               child: Text('Gráfico'),
               color: Colors.blue,
             ),
           ),
-          Card(
-            child: Text('Lista de Transações'),
+          Column(
+            children: _transactions.map((tr) {
+              return Card(
+                child: Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 10
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.purple,
+                          width: 2
+                        )
+                      ),
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                          'R\$ ${tr.value.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.purple
+                        ),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                            tr.title,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Text(
+                            tr.date.toString(),
+                          style: const TextStyle(
+                            color: Colors.grey
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              );
+            }).toList(),
           )
         ],
       ),
