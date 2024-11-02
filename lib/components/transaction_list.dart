@@ -14,14 +14,16 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 550,
-      child: ListView(
-        children: transactions.map((tr) {
+      child: ListView.builder(
+        itemCount: transactions.length,
+        itemBuilder: (ctx, index) {
+          final tr = transactions[index];
           return Card(
             child: Row(
               children: [
                 Container(
                   margin:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.purple, width: 2)),
                   padding: EdgeInsets.all(10),
@@ -50,7 +52,7 @@ class TransactionList extends StatelessWidget {
               ],
             ),
           );
-        }).toList(),
+        },
       ),
     );
   }
