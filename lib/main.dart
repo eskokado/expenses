@@ -25,6 +25,12 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Despesas Pessoais'),
         backgroundColor: Colors.blue,
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.add)
+          )
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -39,6 +45,11 @@ class MyHomePage extends StatelessWidget {
           TransactionUser()
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {}
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
