@@ -4,28 +4,31 @@ import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
+  final void Function(String) onRemove;
 
-  const TransactionList({
+  const TransactionList(this.transactions, this.onRemove, {
     Key? key,
-    required this.transactions,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 550,
+      height: 600,
       child: transactions.isEmpty ? Column(
         children: [
           SizedBox(height: 20,),
           Text(
-              'Nenhuma Transação Cadastrada!',
-            style: Theme.of(context).textTheme.titleLarge,
+            'Nenhuma Transação Cadastrada!',
+            style: Theme
+                .of(context)
+                .textTheme
+                .titleLarge,
           ),
           SizedBox(height: 20,),
           Container(
             height: 200,
             child: Image.asset(
-                'assets/images/waiting.png',
+              'assets/images/waiting.png',
               fit: BoxFit.cover,
             ),
           ),
@@ -35,37 +38,41 @@ class TransactionList extends StatelessWidget {
         itemBuilder: (ctx, index) {
           final tr = transactions[index];
           return Card(
-            child: Row(
-              children: [
-                Container(
-                  margin:
-                  const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.purple, width: 2)),
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    'R\$ ${tr.value.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.purple),
+            elevation: 5,
+            margin: EdgeInsets.symmetric(
+              vertical: 8,
+              horizontal: 5,
+            ),
+            child: ListTile(
+              leading: CircleAvatar(
+                radius: 30,
+                child: Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: FittedBox(
+                      child: Text(
+                        'R\$ ${tr.value.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.white),
+                      ),
                   ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      tr.title,
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      DateFormat('d MMM y').format(tr.date),
-                      style: const TextStyle(color: Colors.grey),
-                    )
-                  ],
-                )
-              ],
+              ),
+              title: Text(
+                tr.title,
+                style: const TextStyle(
+                    fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(
+                DateFormat('d MMM y').format(tr.date),
+                style: const TextStyle(color: Colors.grey),
+              ),
+              trailing: IconButton(
+                onPressed: () => onRemove(tr.id),
+                icon: Icon(Icons.delete),
+                color: Colors.red[700],
+              ),
             ),
           );
         },
