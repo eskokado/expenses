@@ -91,21 +91,39 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Despesas Pessoais'),
-        backgroundColor: Colors.blue,
-        actions: [
-          IconButton(
-              onPressed: () => _openTransactionFormModal(context),
-              icon: Icon(Icons.add))
-        ],
+    final appBar = AppBar(
+      title: DefaultTextStyle(
+        style: TextStyle(fontSize: 20),
+        child: const Text(
+          'Despesas Pessoais',
+          style: TextStyle(fontSize: 20),
+        ),
       ),
+      backgroundColor: Colors.blue,
+      actions: [
+        IconButton(
+            onPressed: () => _openTransactionFormModal(context),
+            icon: Icon(Icons.add))
+      ],
+    );
+
+    final availableHeight = MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
+
+    return Scaffold(
+      appBar: appBar,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Chart(_recentTransactions),
-          TransactionList(_transactions, _removeTransaction),
+          Container(
+            height: availableHeight * 0.25,
+            child: Chart(_recentTransactions),
+          ),
+          Container(
+            height: availableHeight * 0.75,
+            child: TransactionList(_transactions, _removeTransaction),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
