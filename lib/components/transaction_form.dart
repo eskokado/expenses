@@ -47,54 +47,61 @@ class _TransactionFormState extends State<TransactionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          children: [
-            TextField(
-              controller: _titleController,
-              decoration: InputDecoration(
-                labelText: 'Título',
-              ),
-            ),
-            TextField(
-              controller: _valueController,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              decoration: InputDecoration(labelText: 'Valor (R\$)'),
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Data selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}',
-                  ),
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.only(
+            top: 10,
+            right: 10,
+            left: 10,
+            bottom: 10 + MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: Column(
+            children: [
+              TextField(
+                controller: _titleController,
+                decoration: InputDecoration(
+                  labelText: 'Título',
                 ),
-                TextButton(
-                  onPressed: _showDatePicker,
-                  child: Text(
-                    'Selecionar data',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.purple,
+              ),
+              TextField(
+                controller: _valueController,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                decoration: InputDecoration(labelText: 'Valor (R\$)'),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Data selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}',
                     ),
                   ),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                    onPressed: _submitForm,
+                  TextButton(
+                    onPressed: _showDatePicker,
                     child: Text(
-                      'Nova Transação',
-                      style: TextStyle(color: Colors.purple),
-                    )),
-              ],
-            )
-          ],
+                      'Selecionar data',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.purple,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                      onPressed: _submitForm,
+                      child: Text(
+                        'Nova Transação',
+                        style: TextStyle(color: Colors.purple),
+                      )),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
