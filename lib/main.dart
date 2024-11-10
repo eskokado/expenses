@@ -54,6 +54,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [];
+  bool _showChart = false;
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
@@ -91,6 +92,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     final appBar = AppBar(
       title: DefaultTextStyle(
         style: TextStyle(fontSize: 20),
@@ -101,9 +105,17 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       backgroundColor: Colors.blue,
       actions: [
+        if (isLandscape)
+          IconButton(
+            onPressed: () => setState(() {
+              _showChart = !_showChart;
+            }),
+            icon: Icon(_showChart ? Icons.list : Icons.show_chart),
+          ),
         IconButton(
-            onPressed: () => _openTransactionFormModal(context),
-            icon: Icon(Icons.add))
+          onPressed: () => _openTransactionFormModal(context),
+          icon: Icon(Icons.add),
+        ),
       ],
     );
 
@@ -113,18 +125,37 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: appBar,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            height: availableHeight * 0.25,
-            child: Chart(_recentTransactions),
-          ),
-          Container(
-            height: availableHeight * 0.75,
-            child: TransactionList(_transactions, _removeTransaction),
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // if (isLandscape)
+            //   Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       Text('Exibir Gráfico'),
+            //       Switch(
+            //         value: _showChart,
+            //         onChanged: (value) {
+            //           setState(() {
+            //             _showChart = value;
+            //           });
+            //         },
+            //       ),
+            //     ],
+            //   ),
+            if (_showChart || !isLandscape)
+              Container(
+                height: availableHeight * (isLandscape ? 0.7 : 0.25),
+                child: Chart(_recentTransactions),
+              ),
+            if (!_showChart || !isLandscape)
+              Container(
+                height: availableHeight * 0.75,
+                child: TransactionList(_transactions, _removeTransaction),
+              ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
