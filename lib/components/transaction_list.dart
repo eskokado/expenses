@@ -15,31 +15,27 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return transactions.isEmpty
-        ? LayoutBuilder(
-          builder: (ctx, contraints) {
+        ? LayoutBuilder(builder: (ctx, contraints) {
             return Column(
-                children: [
-                  SizedBox(
-                    height: 20
+              children: [
+                SizedBox(height: 20),
+                Text(
+                  'Nenhuma Transação Cadastrada!',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: contraints.maxHeight * 0.6,
+                  child: Image.asset(
+                    'assets/images/waiting.png',
+                    fit: BoxFit.cover,
                   ),
-                  Text(
-                    'Nenhuma Transação Cadastrada!',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    height: contraints.maxHeight * 0.6,
-                    child: Image.asset(
-                      'assets/images/waiting.png',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ],
-              );
-          }
-        )
+                ),
+              ],
+            );
+          })
         : ListView.builder(
             itemCount: transactions.length,
             itemBuilder: (ctx, index) {
@@ -75,11 +71,25 @@ class TransactionList extends StatelessWidget {
                     DateFormat('d MMM y').format(tr.date),
                     style: const TextStyle(color: Colors.grey),
                   ),
-                  trailing: IconButton(
-                    onPressed: () => onRemove(tr.id),
-                    icon: Icon(Icons.delete),
-                    color: Colors.red[700],
-                  ),
+                  trailing: MediaQuery.of(context).size.width > 480
+                      ? TextButton.icon(
+                          onPressed: () => onRemove(tr.id),
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.red[700],
+                          ),
+                          label: Text(
+                            'Excluir',
+                            style: TextStyle(
+                              color: Colors.red[700],
+                            ),
+                          ),
+                        )
+                      : IconButton(
+                          onPressed: () => onRemove(tr.id),
+                          icon: Icon(Icons.delete),
+                          color: Colors.red[700],
+                        ),
                 ),
               );
             },
